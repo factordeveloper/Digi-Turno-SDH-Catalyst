@@ -18,26 +18,12 @@ async function generarTurno(app, body) {
 
   const tablaSedes = datastore.table('Sede');
   let sede;
-  try {
-    sede = await tablaSedes.getRow(String(sede_id));
-  } catch (e) {
-    const msg = e.message || String(e);
-    if (msg.includes('privileges') || msg.includes('No such') || msg.includes('not found')) {
-      throw { status: 500, message: `Error al acceder a tabla Sede en DataStore. Verifica que exista. Detalle: ${msg}` };
-    }
-  }
+  try { sede = await tablaSedes.getRow(String(sede_id)); } catch (e) { /* */ }
   if (!sede) throw { status: 404, message: 'Sede no encontrada' };
 
   const tablaServicios = datastore.table('Servicio');
   let servicio;
-  try {
-    servicio = await tablaServicios.getRow(String(servicio_id));
-  } catch (e) {
-    const msg = e.message || String(e);
-    if (msg.includes('privileges') || msg.includes('No such') || msg.includes('not found')) {
-      throw { status: 500, message: `Error al acceder a tabla Servicio en DataStore. Verifica que exista. Detalle: ${msg}` };
-    }
-  }
+  try { servicio = await tablaServicios.getRow(String(servicio_id)); } catch (e) { /* */ }
   if (!servicio) throw { status: 404, message: 'Servicio no encontrado' };
 
   const tablaTurnos = datastore.table('Turno');

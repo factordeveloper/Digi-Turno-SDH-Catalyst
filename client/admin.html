@@ -34,6 +34,10 @@
       <p>Solo administradores pueden acceder a este panel.</p>
       <div id="authError" style="color:#ef4444;padding:0.5rem;background:#fef2f2;border-radius:8px;margin-bottom:1rem;display:none;font-size:0.85rem;"></div>
       <button class="btn btn-primary" style="width:100%;padding:0.9rem;" onclick="DigiturnoAPI.redirectToLogin()">Iniciar sesion</button>
+      <button class="btn btn-outline" style="width:100%;padding:0.9rem;margin-top:0.75rem;" onclick="DigiturnoAPI.redirectToSignup()">Crear cuenta</button>
+      <div style="margin-top:1rem;">
+        <a href="javascript:void(0)" onclick="DigiturnoAPI.redirectToResetPassword()" style="color:var(--primary);text-decoration:none;font-size:0.85rem;font-weight:500;">Olvidaste tu contrasena?</a>
+      </div>
       <a href="index.html" style="display:block;margin-top:1rem;color:var(--text-muted);text-decoration:none;font-size:0.85rem;">Volver al inicio</a>
     </div>
   </div>

@@ -155,10 +155,9 @@ async function handleRequest(req, res, app, path, method, body, query) {
 
     sendJSON(res, 200, result);
   } catch (err) {
-    console.error('[DigiTurno Error]', err.status || 500, err.message || err, err.stack || '');
     const status = err.status || 500;
     const message = err.message || 'Error interno del servidor';
-    sendJSON(res, status, { error: message, detalle: status === 500 ? (err.stack || String(err)) : undefined });
+    sendJSON(res, status, { error: message });
   }
 }
 

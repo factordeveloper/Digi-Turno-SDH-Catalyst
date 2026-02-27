@@ -11,7 +11,10 @@ const API_BASE = (() => {
 })();
 
 const AUTH_BASE = (() => {
-  if (typeof window !== 'undefined' && window.location) return window.location.origin;
+  if (typeof window !== 'undefined' && window.location) {
+    const o = window.location.origin;
+    if (o.includes('catalystserverless.com')) return o;
+  }
   return 'https://digiturno-793004668.development.catalystserverless.com';
 })();
 
@@ -28,7 +31,7 @@ async function api(method, path, body) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     if (res.status === 401 && !path.includes('/auth/verificar')) {
-      window.location.href = AUTH_BASE + '/__catalyst/auth/login?redirect=' + encodeURIComponent(window.location.href);
+      window.location.href = AUTH_BASE + '/__catalyst/auth/login';
     }
     throw new Error(data.error || `Error ${res.status}`);
   }
@@ -37,7 +40,13 @@ async function api(method, path, body) {
 
 const DigiturnoAPI = {
   redirectToLogin: () => {
-    window.location.href = AUTH_BASE + '/__catalyst/auth/login?redirect=' + encodeURIComponent(window.location.href);
+    window.location.href = AUTH_BASE + '/__catalyst/auth/login';
+  },
+  redirectToSignup: () => {
+    window.location.href = AUTH_BASE + '/__catalyst/auth/signup';
+  },
+  redirectToResetPassword: () => {
+    window.location.href = AUTH_BASE + '/__catalyst/auth/reset-password';
   },
   logout: () => {
     localStorage.removeItem('digiturno_usuario');

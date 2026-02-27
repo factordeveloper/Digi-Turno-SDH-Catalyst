@@ -72,21 +72,13 @@ async function getAllRows(table) {
   const MAX = 300;
   let allData = [];
   let nextToken;
-  try {
-    do {
-      const opts = { maxRows: MAX };
-      if (nextToken) opts.nextToken = nextToken;
-      const page = await table.getPagedRows(opts);
-      allData = allData.concat(page.data || []);
-      nextToken = page.next_token || page.nextToken;
-    } while (nextToken);
-  } catch (err) {
-    const msg = err.message || String(err);
-    if (msg.includes('privileges') || msg.includes('No such') || msg.includes('not found')) {
-      throw { status: 500, message: `Tabla no encontrada o sin permisos en DataStore. Verifica que la tabla exista en la consola de Catalyst. Detalle: ${msg}` };
-    }
-    throw err;
-  }
+  do {
+    const opts = { maxRows: MAX };
+    if (nextToken) opts.nextToken = nextToken;
+    const page = await table.getPagedRows(opts);
+    allData = allData.concat(page.data || []);
+    nextToken = page.next_token || page.nextToken;
+  } while (nextToken);
   return allData;
 }
 
