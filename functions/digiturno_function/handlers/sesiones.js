@@ -20,7 +20,7 @@ async function iniciarSesion(app) {
   await tablaUsuarios.updateRow({ ROWID: usuario.perfil_id, estado: 'activo' });
 
   const row = await tabla.insertRow({
-    agente_id: String(usuario.perfil_id),
+    agente_id: usuario.perfil_id,
     sede_id: String(usuario.sede_id || ''),
     hora_inicio: getTimestampAhora(),
     hora_fin: '',

@@ -110,7 +110,7 @@ async function asignarServicios(app, body, userId) {
 
   for (const servicio_id of servicios) {
     await tablaAS.insertRow({
-      agente_id: String(userId),
+      agente_id: Number(userId),
       servicio_id: String(servicio_id)
     });
   }

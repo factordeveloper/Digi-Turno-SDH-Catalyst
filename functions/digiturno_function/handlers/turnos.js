@@ -44,7 +44,6 @@ async function generarTurno(app, body) {
   const turno = await tablaTurnos.insertRow({
     sede_id: String(sede_id),
     servicio_id: String(servicio_id),
-    agente_id: '',
     numero_turno: codigo,
     llamadas: 0,
     numero_secuencial: siguienteNumero,
@@ -137,7 +136,7 @@ async function llamarSiguiente(app, body) {
   await tablaTurnos.updateRow({
     ROWID: siguiente.ROWID,
     estado: 'llamado',
-    agente_id: String(usuario.perfil_id),
+    agente_id: usuario.perfil_id,
     llamadas: 1,
     hora_llamado: horaLlamado,
     tiempo_espera_seg: calcularSegundos(col(siguiente, 'hora_generado'), horaLlamado)
