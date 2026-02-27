@@ -126,9 +126,12 @@
         if(!u.perfil_id){ showAuth('No tiene perfil asignado. Contacte al administrador.'); return; }
         if(u.rol!=='agente' && u.rol!=='admin'){ showAuth('Acceso solo para agentes.'); return; }
         usuario = u;
-        await DigiturnoAPI.iniciarSesionAgente();
+        try { await DigiturnoAPI.iniciarSesionAgente(); } catch(se){ console.warn('Sesion agente:', se.message); }
         showPanel();
-      } catch(e){ showAuth(); }
+      } catch(e){
+        console.error('Init agente error:', e);
+        showAuth();
+      }
     }
 
     function showAuth(msg){

@@ -31,6 +31,7 @@ async function api(method, path, body) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     if (res.status === 401 && !path.includes('/auth/verificar')) {
+      sessionStorage.setItem('digiturno_redirect', window.location.href);
       window.location.href = AUTH_BASE + '/__catalyst/auth/login';
     }
     throw new Error(data.error || `Error ${res.status}`);
@@ -40,16 +41,32 @@ async function api(method, path, body) {
 
 const DigiturnoAPI = {
   redirectToLogin: () => {
+    sessionStorage.setItem('digiturno_redirect', window.location.href);
     window.location.href = AUTH_BASE + '/__catalyst/auth/login';
   },
   redirectToSignup: () => {
+    sessionStorage.setItem('digiturno_redirect', window.location.href);
     window.location.href = AUTH_BASE + '/__catalyst/auth/signup';
   },
   redirectToResetPassword: () => {
     window.location.href = AUTH_BASE + '/__catalyst/auth/reset-password';
   },
+  handlePostLoginRedirect: () => {
+    const dest = sessionStorage.getItem('digiturno_redirect');
+    if (dest) {
+      sessionStorage.removeItem('digiturno_redirect');
+      const currentUrl = window.location.href.split('?')[0].split('#')[0];
+      const destClean = dest.split('?')[0].split('#')[0];
+      if (destClean !== currentUrl) {
+        window.location.href = dest;
+        return true;
+      }
+    }
+    return false;
+  },
   logout: () => {
     localStorage.removeItem('digiturno_usuario');
+    sessionStorage.removeItem('digiturno_redirect');
     if (typeof catalyst !== 'undefined' && catalyst.auth) {
       catalyst.auth.signOut(AUTH_BASE + '/app/index.html');
       return;

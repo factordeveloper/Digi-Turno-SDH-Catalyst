@@ -118,6 +118,8 @@
       try {
         const { usuario } = await DigiturnoAPI.verificarSesion();
         if (usuario && usuario.catalyst_user_id) {
+          if (DigiturnoAPI.handlePostLoginRedirect()) return;
+
           document.getElementById('guestBar').classList.add('hidden');
           document.getElementById('userBar').classList.remove('hidden');
           
